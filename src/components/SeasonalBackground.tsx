@@ -41,7 +41,7 @@ const SeasonalBackground = () => {
           animationDuration: `${Math.random() * 12 + 10}s`,
           filter: `blur(${Math.random() * 1}px)`,
           color: ['#FF6B35', '#FFA500', '#FF8C42', '#DC2626'][Math.floor(Math.random() * 4)],
-          opacity: 0.4,
+          opacity: 0.15,
         }}
       >
         🍂
