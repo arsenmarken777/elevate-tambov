@@ -1,7 +1,10 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
 const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN");
 const TELEGRAM_CHAT_ID = Deno.env.get("TELEGRAM_CHAT_ID");
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
+const SUPABASE_SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,6 +34,29 @@ const handler = async (req: Request): Promise<Response> => {
       console.error("Missing Telegram credentials");
       throw new Error("Telegram credentials not configured");
     }
+
+    // Create Supabase client
+    const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+
+    // Save request to database
+    const { data: savedRequest, error: dbError } = await supabase
+      .from("requests")
+      .insert({
+        name,
+        phone,
+        email,
+        message,
+        status: "new",
+      })
+      .select()
+      .single();
+
+    if (dbError) {
+      console.error("Database error:", dbError);
+      throw new Error(`Failed to save request: ${dbError.message}`);
+    }
+
+    console.log("Request saved to database:", savedRequest);
 
     // Format the message for Telegram
     const telegramMessage = `
@@ -73,7 +99,11 @@ ${message}
     console.log("Telegram message sent successfully:", telegramData);
 
     return new Response(
-      JSON.stringify({ success: true, data: telegramData }),
+      JSON.stringify({ 
+        success: true, 
+        telegram: telegramData,
+        request: savedRequest 
+      }),
       {
         status: 200,
         headers: {
