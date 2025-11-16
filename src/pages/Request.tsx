@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail, User, MessageSquare } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Request = () => {
   const { toast } = useToast();
@@ -16,24 +17,48 @@ const Request = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real application, this would send the data to a server
-    console.log("Form submitted:", formData);
-    
-    toast({
-      title: "Заявка отправлена!",
-      description: "Мы свяжемся с вами в ближайшее время.",
-    });
+    try {
+      console.log("Sending request to Telegram...");
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const { data, error } = await supabase.functions.invoke(
+        "send-telegram-notification",
+        {
+          body: formData,
+        }
+      );
 
-    // Reset form
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      message: "",
-    });
+      if (error) {
+        console.error("Error sending notification:", error);
+        throw error;
+      }
+
+      console.log("Notification sent successfully:", data);
+
+      toast({
+        title: "Заявка отправлена!",
+        description: "Мы получили вашу заявку и свяжемся с вами в ближайшее время.",
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        message: "",
+      });
+    } catch (error: any) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Ошибка отправки",
+        description: "Не удалось отправить заявку. Пожалуйста, попробуйте позже или позвоните нам напрямую.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
