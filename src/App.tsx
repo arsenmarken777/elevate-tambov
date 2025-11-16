@@ -11,6 +11,7 @@ import Contacts from "./pages/Contacts";
 import Request from "./pages/Request";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
+import SetupAdmin from "./pages/SetupAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           {/* Admin routes without layout */}
+          <Route path="/setup-admin" element={<SetupAdmin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Admin />} />
           
