@@ -2,8 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { ArrowRight, CheckCircle, Wrench, Clock, Shield } from "lucide-react";
-import kamazImg from "@/assets/kamaz.png";
-import vyshkaImg from "@/assets/vyshka-all.jpg";
+import vyshkaImg1 from "@/assets/vyshka-1.jpg";
+import vyshkaImg2 from "@/assets/vyshka-2.jpg";
+import vyshkaImg3 from "@/assets/vyshka-3.jpg";
+import vyshkaImg4 from "@/assets/vyshka-4.jpg";
+import vyshkaImg5 from "@/assets/vyshka-5.jpg";
 
 const Index = () => {
   return (
@@ -35,8 +38,8 @@ const Index = () => {
             </div>
             <div className="relative">
               <img
-                src={kamazImg}
-                alt="Автовышка КАМАЗ"
+                src={vyshkaImg1}
+                alt="Автовышка в работе"
                 className="rounded-2xl shadow-2xl w-full hover:scale-105 transition-transform duration-500"
               />
             </div>
@@ -105,19 +108,34 @@ const Index = () => {
       <section className="py-16 bg-card/50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Наша техника</h2>
-          <div className="max-w-4xl mx-auto">
-            <Card className="overflow-hidden shadow-2xl">
-              <img src={vyshkaImg} alt="Парк автовышек" className="w-full h-auto" />
+          <div className="max-w-6xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {[
+                { img: vyshkaImg2, name: "Зил АП-18", height: "18 метров" },
+                { img: vyshkaImg3, name: "Газ АП-22", height: "22 метра" },
+                { img: vyshkaImg4, name: "Маз АП-18", height: "18 метров" },
+                { img: vyshkaImg5, name: "Маз ВС-28", height: "28 метров" },
+                { img: vyshkaImg1, name: "Камаз ВС-28", height: "28 метров" },
+              ].map((equipment, index) => (
+                <Card key={index} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
+                  <img src={equipment.img} alt={equipment.name} className="w-full h-64 object-cover" />
+                  <CardContent className="p-4">
+                    <h3 className="text-xl font-bold mb-2">{equipment.name}</h3>
+                    <p className="text-muted-foreground flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                      Высота подъема: {equipment.height}
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <Card className="bg-gradient-card shadow-xl">
               <CardContent className="p-6">
-                <h3 className="text-2xl font-bold mb-4">Автовышки ВС 22, АГП 22 и ВС 28</h3>
-                <ul className="space-y-2 text-muted-foreground">
+                <h3 className="text-2xl font-bold mb-4">Преимущества нашей техники</h3>
+                <ul className="grid md:grid-cols-2 gap-3 text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>На базе ЗИЛ 130 и КАМАЗ</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span>Высота подъема до 28 метров</span>
+                    <span>Высота подъема от 18 до 28 метров</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
@@ -126,6 +144,10 @@ const Index = () => {
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                     <span>Мобильность и маневренность</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <span>Опытные машинисты</span>
                   </li>
                 </ul>
               </CardContent>
