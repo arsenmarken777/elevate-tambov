@@ -7,6 +7,14 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail, User, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+
+const requestSchema = z.object({
+  name: z.string().trim().min(1, "Имя обязательно").max(100, "Имя не должно превышать 100 символов"),
+  phone: z.string().trim().min(10, "Введите корректный номер телефона").max(15, "Номер телефона слишком длинный"),
+  email: z.string().trim().email("Введите корректный email").max(255, "Email слишком длинный").optional().or(z.literal("")),
+  message: z.string().trim().min(10, "Сообщение должно содержать минимум 10 символов").max(1000, "Сообщение не должно превышать 1000 символов"),
+});
 
 const Request = () => {
   const { toast } = useToast();
@@ -21,23 +29,19 @@ const Request = () => {
     e.preventDefault();
     
     try {
-      console.log("Sending request to Telegram...");
-      
-      const { data: { user } } = await supabase.auth.getUser();
+      // Validate input using zod schema
+      const validatedData = requestSchema.parse(formData);
       
       const { data, error } = await supabase.functions.invoke(
         "send-telegram-notification",
         {
-          body: formData,
+          body: validatedData,
         }
       );
 
       if (error) {
-        console.error("Error sending notification:", error);
         throw error;
       }
-
-      console.log("Notification sent successfully:", data);
 
       toast({
         title: "Заявка отправлена!",
@@ -52,12 +56,19 @@ const Request = () => {
         message: "",
       });
     } catch (error: any) {
-      console.error("Error submitting form:", error);
-      toast({
-        title: "Ошибка отправки",
-        description: "Не удалось отправить заявку. Пожалуйста, попробуйте позже или позвоните нам напрямую.",
-        variant: "destructive",
-      });
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Ошибка валидации",
+          description: error.errors[0].message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Ошибка отправки",
+          description: "Не удалось отправить заявку. Пожалуйста, попробуйте позже или позвоните нам напрямую.",
+          variant: "destructive",
+        });
+      }
     }
   };
 
