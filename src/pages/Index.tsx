@@ -111,11 +111,11 @@ const Index = () => {
           <div className="max-w-6xl mx-auto">
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {[
-                { img: vyshkaImg2, name: "Зил АП-18", height: "18 метров" },
+                { img: vyshkaImg1, name: "Зил АП-18", height: "18 метров" },
                 { img: vyshkaImg3, name: "Газ АП-22", height: "22 метра" },
-                { img: vyshkaImg4, name: "Маз АП-18", height: "18 метров" },
-                { img: vyshkaImg5, name: "Маз ВС-28", height: "28 метров" },
-                { img: vyshkaImg1, name: "Камаз ВС-28", height: "28 метров" },
+                { img: vyshkaImg5, name: "Маз АП-18", height: "18 метров" },
+                { img: vyshkaImg2, name: "Маз ВС-28", height: "28 метров" },
+                { img: vyshkaImg4, name: "Камаз ВС-28", height: "28 метров" },
               ].map((equipment, index) => (
                 <Card key={index} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
                   <img src={equipment.img} alt={equipment.name} className="w-full h-64 object-cover" />
