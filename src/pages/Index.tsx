@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowRight, CheckCircle, Wrench, Clock, Shield } from "lucide-react";
+import { ArrowRight, CheckCircle, Wrench, Clock, Shield, Phone } from "lucide-react";
 import vyshkaImg1 from "@/assets/vyshka-1.jpg";
 import vyshkaImg2 from "@/assets/vyshka-2.jpg";
 import vyshkaImg3 from "@/assets/vyshka-3.jpg";
@@ -29,11 +29,20 @@ const Index = () => {
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </Link>
-                <a href="tel:+79156746390">
-                  <Button size="lg" variant="outline">
-                    Позвонить
-                  </Button>
-                </a>
+                <div className="flex gap-2">
+                  <a href="tel:+79156746390">
+                    <Button size="lg" variant="outline">
+                      <Phone className="h-5 w-5 mr-2" />
+                      +7 915 674 63 90
+                    </Button>
+                  </a>
+                  <a href="tel:+79156740282">
+                    <Button size="lg" variant="outline">
+                      <Phone className="h-5 w-5 mr-2" />
+                      +7 915 674 02 82
+                    </Button>
+                  </a>
+                </div>
               </div>
             </div>
             <div className="relative">

@@ -41,6 +41,10 @@ const Footer = () => {
                 <Phone className="h-4 w-4" />
                 <span>+7 915 674 63 90</span>
               </a>
+              <a href="tel:+79156740282" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <Phone className="h-4 w-4" />
+                <span>+7 915 674 02 82</span>
+              </a>
               <div className="flex items-center gap-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
                 <span>Тамбов, Тамбовская область</span>

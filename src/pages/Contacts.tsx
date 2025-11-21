@@ -17,14 +17,22 @@ const Contacts = () => {
                     <div className="p-3 rounded-full bg-primary/10">
                       <Phone className="h-8 w-8 text-primary" />
                     </div>
-                    <h2 className="text-2xl font-semibold">Телефон</h2>
+                    <h2 className="text-2xl font-semibold">Телефоны</h2>
                   </div>
-                  <a href="tel:+79156746390" className="block">
-                    <Button variant="default" size="lg" className="w-full text-lg gap-3 shadow-lg animate-pulse-glow">
-                      <Phone className="h-5 w-5" />
-                      +7 915 674 63 90
-                    </Button>
-                  </a>
+                  <div className="space-y-3">
+                    <a href="tel:+79156746390" className="block">
+                      <Button variant="default" size="lg" className="w-full text-lg gap-3 shadow-lg animate-pulse-glow">
+                        <Phone className="h-5 w-5" />
+                        +7 915 674 63 90
+                      </Button>
+                    </a>
+                    <a href="tel:+79156740282" className="block">
+                      <Button variant="default" size="lg" className="w-full text-lg gap-3 shadow-lg animate-pulse-glow">
+                        <Phone className="h-5 w-5" />
+                        +7 915 674 02 82
+                      </Button>
+                    </a>
+                  </div>
                   <p className="text-sm text-muted-foreground mt-4 text-center">
                     Нажмите, чтобы позвонить
                   </p>
@@ -90,12 +98,20 @@ const Contacts = () => {
                     <p className="text-muted-foreground mb-4">
                       Мы работаем по всей Тамбовской области
                     </p>
-                    <a href="tel:+79156746390">
-                      <Button size="lg" className="shadow-xl">
-                        <Phone className="h-5 w-5 mr-2" />
-                        Связаться с нами
-                      </Button>
-                    </a>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <a href="tel:+79156746390">
+                        <Button size="lg" className="shadow-xl w-full sm:w-auto">
+                          <Phone className="h-5 w-5 mr-2" />
+                          +7 915 674 63 90
+                        </Button>
+                      </a>
+                      <a href="tel:+79156740282">
+                        <Button size="lg" className="shadow-xl w-full sm:w-auto">
+                          <Phone className="h-5 w-5 mr-2" />
+                          +7 915 674 02 82
+                        </Button>
+                      </a>
+                    </div>
                   </div>
                 </div>
               </CardContent>
