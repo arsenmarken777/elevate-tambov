@@ -48,6 +48,12 @@ const Header = () => {
                 +7 915 674 63 90
               </Button>
             </a>
+            <a href="tel:+79156740282">
+              <Button variant="secondary" className="gap-2">
+                <Phone className="h-4 w-4" />
+                +7 915 674 02 82
+              </Button>
+            </a>
           </div>
 
           <Button
@@ -77,6 +83,12 @@ const Header = () => {
                 <Button variant="secondary" className="w-full gap-2">
                   <Phone className="h-4 w-4" />
                   +7 915 674 63 90
+                </Button>
+              </a>
+              <a href="tel:+79156740282">
+                <Button variant="secondary" className="w-full gap-2">
+                  <Phone className="h-4 w-4" />
+                  +7 915 674 02 82
                 </Button>
               </a>
             </nav>
