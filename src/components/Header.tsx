@@ -41,7 +41,7 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-end">
             <div className="flex flex-col gap-2 bg-primary/10 p-3 rounded-lg animate-pulse-glow">
               <a href="tel:+79156746390">
                 <Button variant="secondary" size="sm" className="gap-2 w-full">
