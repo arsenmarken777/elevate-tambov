@@ -118,7 +118,7 @@ const Index = () => {
                 { img: vyshkaImg4, name: "Камаз ВС-28", height: "28 метров" },
               ].map((equipment, index) => (
                 <Card key={index} className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-                  <img src={equipment.img} alt={equipment.name} className="w-full h-64 object-contain bg-muted" />
+                  <img src={equipment.img} alt={equipment.name} className="w-full h-64 object-cover" />
                   <CardContent className="p-4">
                     <h3 className="text-xl font-bold mb-2">{equipment.name}</h3>
                     <p className="text-muted-foreground flex items-center gap-2">
