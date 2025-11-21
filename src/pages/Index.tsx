@@ -7,6 +7,8 @@ import vyshkaImg2 from "@/assets/vyshka-2.jpg";
 import vyshkaImg3 from "@/assets/vyshka-3.jpg";
 import vyshkaImg4 from "@/assets/vyshka-4.jpg";
 import vyshkaImg5 from "@/assets/vyshka-5.jpg";
+import Reviews from "@/components/Reviews";
+import ReviewForm from "@/components/ReviewForm";
 
 const Index = () => {
   return (
@@ -29,20 +31,20 @@ const Index = () => {
                     <ArrowRight className="h-5 w-5" />
                   </Button>
                 </Link>
-                <div className="flex gap-2">
-                  <a href="tel:+79156746390">
-                    <Button size="lg" variant="outline">
-                      <Phone className="h-5 w-5 mr-2" />
-                      +7 915 674 63 90
-                    </Button>
-                  </a>
-                  <a href="tel:+79156740282">
-                    <Button size="lg" variant="outline">
-                      <Phone className="h-5 w-5 mr-2" />
-                      +7 915 674 02 82
-                    </Button>
-                  </a>
-                </div>
+              <div className="flex flex-col gap-2">
+                <a href="tel:+79156746390">
+                  <Button size="lg" variant="outline" className="w-full">
+                    <Phone className="h-5 w-5 mr-2" />
+                    +7 915 674 63 90
+                  </Button>
+                </a>
+                <a href="tel:+79156740282">
+                  <Button size="lg" variant="outline" className="w-full">
+                    <Phone className="h-5 w-5 mr-2" />
+                    +7 915 674 02 82
+                  </Button>
+                </a>
+              </div>
               </div>
             </div>
             <div className="relative">
@@ -191,6 +193,23 @@ const Index = () => {
                   Контакты
                 </Button>
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews Section */}
+      <section className="py-16 bg-card/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Отзывы клиентов</h2>
+            <div className="grid lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2">
+                <Reviews />
+              </div>
+              <div>
+                <ReviewForm />
+              </div>
             </div>
           </div>
         </div>

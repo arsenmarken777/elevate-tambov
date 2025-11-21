@@ -47,6 +47,36 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          approved: boolean
+          comment: string
+          created_at: string
+          id: string
+          name: string
+          phone: string | null
+          rating: number
+        }
+        Insert: {
+          approved?: boolean
+          comment: string
+          created_at?: string
+          id?: string
+          name: string
+          phone?: string | null
+          rating: number
+        }
+        Update: {
+          approved?: boolean
+          comment?: string
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          rating?: number
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           id: string

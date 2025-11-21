@@ -41,19 +41,21 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="hidden md:flex items-center space-x-3">
-            <a href="tel:+79156746390">
-              <Button variant="secondary" className="gap-2">
-                <Phone className="h-4 w-4" />
-                +7 915 674 63 90
-              </Button>
-            </a>
-            <a href="tel:+79156740282">
-              <Button variant="secondary" className="gap-2">
-                <Phone className="h-4 w-4" />
-                +7 915 674 02 82
-              </Button>
-            </a>
+          <div className="hidden md:flex items-center">
+            <div className="flex flex-col gap-2 bg-primary/10 p-3 rounded-lg animate-pulse-glow">
+              <a href="tel:+79156746390">
+                <Button variant="secondary" size="sm" className="gap-2 w-full">
+                  <Phone className="h-4 w-4" />
+                  +7 915 674 63 90
+                </Button>
+              </a>
+              <a href="tel:+79156740282">
+                <Button variant="secondary" size="sm" className="gap-2 w-full">
+                  <Phone className="h-4 w-4" />
+                  +7 915 674 02 82
+                </Button>
+              </a>
+            </div>
           </div>
 
           <Button
@@ -79,18 +81,20 @@ const Header = () => {
                   </Button>
                 </Link>
               ))}
-              <a href="tel:+79156746390">
-                <Button variant="secondary" className="w-full gap-2">
-                  <Phone className="h-4 w-4" />
-                  +7 915 674 63 90
-                </Button>
-              </a>
-              <a href="tel:+79156740282">
-                <Button variant="secondary" className="w-full gap-2">
-                  <Phone className="h-4 w-4" />
-                  +7 915 674 02 82
-                </Button>
-              </a>
+              <div className="bg-primary/10 p-3 rounded-lg animate-pulse-glow space-y-2">
+                <a href="tel:+79156746390">
+                  <Button variant="secondary" className="w-full gap-2">
+                    <Phone className="h-4 w-4" />
+                    +7 915 674 63 90
+                  </Button>
+                </a>
+                <a href="tel:+79156740282">
+                  <Button variant="secondary" className="w-full gap-2">
+                    <Phone className="h-4 w-4" />
+                    +7 915 674 02 82
+                  </Button>
+                </a>
+              </div>
             </nav>
           </div>
         )}
