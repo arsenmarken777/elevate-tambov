@@ -113,7 +113,7 @@ const Index = () => {
               {[
                 { img: vyshkaImg1, name: "Зил АП-18", height: "18 метров", objectFit: "cover" },
                 { img: vyshkaImg3, name: "Газ АП-22", height: "22 метра", objectFit: "cover" },
-                { img: vyshkaImg5, name: "Маз ВС-28", height: "28 метров", objectFit: "contain" },
+                { img: vyshkaImg5, name: "Маз АП-18", height: "18 метров", objectFit: "contain" },
                 { img: vyshkaImg2, name: "Камаз ВС-28", height: "28 метров", objectFit: "contain" },
                 { img: vyshkaImg4, name: "Маз ВС-28", height: "28 метров", objectFit: "cover" },
               ].map((equipment, index) => (
