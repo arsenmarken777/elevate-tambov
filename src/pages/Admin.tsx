@@ -12,9 +12,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { LogOut, Search, Calendar, Filter } from "lucide-react";
+import { LogOut, Search, Calendar, Filter, Star } from "lucide-react";
 
 interface Request {
   id: string;
@@ -27,11 +28,22 @@ interface Request {
   updated_at: string;
 }
 
+interface Review {
+  id: string;
+  name: string;
+  phone: string | null;
+  rating: number;
+  comment: string;
+  approved: boolean;
+  created_at: string;
+}
+
 const Admin = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [requests, setRequests] = useState<Request[]>([]);
   const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
@@ -41,6 +53,7 @@ const Admin = () => {
   useEffect(() => {
     checkAuth();
     fetchRequests();
+    fetchReviews();
   }, []);
 
   useEffect(() => {
@@ -92,6 +105,26 @@ const Admin = () => {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const fetchReviews = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("reviews")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      setReviews(data || []);
+    } catch (error: any) {
+      console.error("Error fetching reviews:", error);
+      toast({
+        title: "Ошибка загрузки",
+        description: "Не удалось загрузить отзывы",
+        variant: "destructive",
+      });
     }
   };
 
@@ -155,6 +188,31 @@ const Admin = () => {
     }
   };
 
+  const updateReviewApproval = async (id: string, approved: boolean) => {
+    try {
+      const { error } = await supabase
+        .from("reviews")
+        .update({ approved })
+        .eq("id", id);
+
+      if (error) throw error;
+
+      toast({
+        title: approved ? "Отзыв одобрен" : "Отзыв отклонен",
+        description: approved ? "Отзыв появится на сайте" : "Отзыв скрыт с сайта",
+      });
+
+      fetchReviews();
+    } catch (error: any) {
+      console.error("Error updating review:", error);
+      toast({
+        title: "Ошибка",
+        description: "Не удалось обновить отзыв",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/login");
@@ -201,8 +259,15 @@ const Admin = () => {
           </Button>
         </div>
 
-        {/* Filters */}
-        <Card className="mb-6">
+        <Tabs defaultValue="requests" className="w-full">
+          <TabsList className="grid w-full md:w-[400px] grid-cols-2 mb-6">
+            <TabsTrigger value="requests">Заявки</TabsTrigger>
+            <TabsTrigger value="reviews">Отзывы</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="requests">{/* Requests content */}
+
+            <Card className="mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Filter className="h-5 w-5" />
@@ -267,10 +332,10 @@ const Admin = () => {
               </div>
             </div>
           </CardContent>
-        </Card>
+            </Card>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            {/* Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <Card>
             <CardContent className="p-6">
               <div className="text-2xl font-bold">{requests.length}</div>
@@ -301,10 +366,10 @@ const Admin = () => {
               <div className="text-sm text-muted-foreground">Завершены</div>
             </CardContent>
           </Card>
-        </div>
+            </div>
 
-        {/* Requests List */}
-        <div className="space-y-4">
+            {/* Requests List */}
+            <div className="space-y-4">
           {isLoading ? (
             <Card>
               <CardContent className="p-6 text-center">
@@ -367,7 +432,112 @@ const Admin = () => {
               </Card>
             ))
           )}
-        </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reviews">
+            {/* Reviews Stats */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <Card>
+                <CardContent className="p-6">
+                  <div className="text-2xl font-bold">{reviews.length}</div>
+                  <div className="text-sm text-muted-foreground">Всего отзывов</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="text-2xl font-bold text-green-500">
+                    {reviews.filter((r) => r.approved).length}
+                  </div>
+                  <div className="text-sm text-muted-foreground">Одобренные</div>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="text-2xl font-bold text-yellow-500">
+                    {reviews.filter((r) => !r.approved).length}
+                  </div>
+                  <div className="text-sm text-muted-foreground">На модерации</div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Reviews List */}
+            <div className="space-y-4">
+              {isLoading ? (
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    Загрузка отзывов...
+                  </CardContent>
+                </Card>
+              ) : reviews.length === 0 ? (
+                <Card>
+                  <CardContent className="p-6 text-center text-muted-foreground">
+                    Отзывы не найдены
+                  </CardContent>
+                </Card>
+              ) : (
+                reviews.map((review) => (
+                  <Card key={review.id}>
+                    <CardContent className="p-6">
+                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-xl font-semibold">{review.name}</h3>
+                            <Badge className={review.approved ? "bg-green-500" : "bg-yellow-500"}>
+                              {review.approved ? "Одобрен" : "На модерации"}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center gap-1 mb-2">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`h-4 w-4 ${
+                                  i < review.rating
+                                    ? "fill-yellow-400 text-yellow-400"
+                                    : "text-gray-300"
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          {review.phone && (
+                            <p className="text-sm text-muted-foreground mb-1">
+                              📞 {review.phone}
+                            </p>
+                          )}
+                          <p className="text-sm text-muted-foreground mb-3">
+                            📅 {new Date(review.created_at).toLocaleString("ru-RU")}
+                          </p>
+                          <p className="text-sm bg-muted p-3 rounded-md">
+                            {review.comment}
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-2 min-w-[180px]">
+                          <Button
+                            onClick={() => updateReviewApproval(review.id, true)}
+                            disabled={review.approved}
+                            variant={review.approved ? "outline" : "default"}
+                            className="w-full"
+                          >
+                            Одобрить
+                          </Button>
+                          <Button
+                            onClick={() => updateReviewApproval(review.id, false)}
+                            disabled={!review.approved}
+                            variant="destructive"
+                            className="w-full"
+                          >
+                            Отклонить
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))
+              )}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
