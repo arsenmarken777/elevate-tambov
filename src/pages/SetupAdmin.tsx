@@ -42,7 +42,7 @@ const SetupAdmin = () => {
     setIsLoading(true);
 
     try {
-      // Регистрация пользователя
+      // Попытка регистрации пользователя
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -51,17 +51,56 @@ const SetupAdmin = () => {
         },
       });
 
-      if (signUpError) throw signUpError;
+      let userId: string;
 
-      if (!authData.user) {
-        throw new Error("Не удалось создать пользователя");
+      // Если пользователь уже существует
+      if (signUpError && signUpError.message.includes("already registered")) {
+        // Пытаемся войти, чтобы получить user_id
+        const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+          email: formData.email,
+          password: formData.password,
+        });
+
+        if (signInError) {
+          throw new Error("Пользователь уже существует, но пароль неверный. Используйте другой email или войдите через /login");
+        }
+
+        if (!signInData.user) {
+          throw new Error("Не удалось получить данные пользователя");
+        }
+
+        userId = signInData.user.id;
+
+        // Проверяем, есть ли уже роль admin
+        const { data: existingRole } = await supabase
+          .from("user_roles")
+          .select("*")
+          .eq("user_id", userId)
+          .eq("role", "admin")
+          .single();
+
+        if (existingRole) {
+          toast({
+            title: "Этот пользователь уже администратор!",
+            description: "Можете войти в админ-панель",
+          });
+          setTimeout(() => navigate("/login"), 2000);
+          return;
+        }
+      } else if (signUpError) {
+        throw signUpError;
+      } else {
+        if (!authData.user) {
+          throw new Error("Не удалось создать пользователя");
+        }
+        userId = authData.user.id;
       }
 
       // Добавление роли администратора
       const { error: roleError } = await supabase
         .from("user_roles")
         .insert({
-          user_id: authData.user.id,
+          user_id: userId,
           role: "admin",
         });
 
@@ -72,7 +111,8 @@ const SetupAdmin = () => {
         description: "Теперь вы можете войти в админ-панель",
       });
 
-      // Перенаправление на страницу входа
+      // Выход и перенаправление на страницу входа
+      await supabase.auth.signOut();
       setTimeout(() => {
         navigate("/login");
       }, 2000);
