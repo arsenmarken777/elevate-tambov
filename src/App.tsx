@@ -11,7 +11,6 @@ import Contacts from "./pages/Contacts";
 import Request from "./pages/Request";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
-import AdminAccess from "./pages/AdminAccess";
 import SetupAdmin from "./pages/SetupAdmin";
 import NotFound from "./pages/NotFound";
 
@@ -24,8 +23,10 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Secret admin route - no auth required */}
+          <Route path="/avtovyshka68admin" element={<Admin skipAuth={true} />} />
+          
           {/* Admin routes without layout */}
-          <Route path="/admin-access" element={<AdminAccess />} />
           <Route path="/setup-admin" element={<SetupAdmin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<Admin />} />
