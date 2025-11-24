@@ -83,6 +83,16 @@ const Admin = () => {
   }, [requests, searchQuery, statusFilter, dateFrom, dateTo]);
 
   const checkAuth = async () => {
+    // Проверяем токен быстрого доступа
+    const accessToken = localStorage.getItem("admin_access_token");
+    const correctToken = import.meta.env.VITE_ADMIN_ACCESS_TOKEN || "avtovyshka68admin";
+    
+    if (accessToken === correctToken) {
+      // Доступ через специальную ссылку - разрешаем
+      return;
+    }
+
+    // Если токена нет, проверяем обычную аутентификацию
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
@@ -243,6 +253,9 @@ const Admin = () => {
   };
 
   const handleLogout = async () => {
+    // Удаляем токен быстрого доступа
+    localStorage.removeItem("admin_access_token");
+    // Выходим из аккаунта если были залогинены
     await supabase.auth.signOut();
     navigate("/login");
   };
