@@ -2,10 +2,17 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { CheckCircle, Phone } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const Pricing = () => {
   return (
-    <div className="animate-fade-in">
+    <>
+      <SEO 
+        title="Цены на Аренду Автовышек в Тамбове - Прайс-лист | АвтоВышка68"
+        description="Аренда автовышки в Тамбове от 2000₽/час. Прозрачное ценообразование. Стоимость зависит от высоты, времени аренды и расстояния. Расчет за 5 минут. ☎ +7 915 674 63 90"
+        keywords="цены аренда автовышки Тамбов, стоимость автовышки, прайс автовышка, сколько стоит автовышка, расценки высотные работы, тарифы автогидроподъемник, аренда автовышки недорого цена"
+      />
+      <div className="animate-fade-in">
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -110,6 +117,7 @@ const Pricing = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import {
   Building,
   Lightbulb,
@@ -73,7 +74,13 @@ const Services = () => {
   ];
 
   return (
-    <div className="animate-fade-in">
+    <>
+      <SEO 
+        title="Услуги по Аренде Автовышек в Тамбове | АвтоВышка68"
+        description="Широкий спектр услуг: монтаж рекламы, высотные работы, очистка крыш, фасадные работы, праздничное оформление в Тамбове. Профессиональные операторы. ☎ +7 915 674 63 90"
+        keywords="услуги автовышки Тамбов, монтаж рекламы, высотные работы, очистка крыш, ремонт фасадов, праздничное оформление, обрезка деревьев, монтажные работы, услуги автогидроподъемника"
+      />
+      <div className="animate-fade-in">
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center mb-12">
@@ -139,6 +146,7 @@ const Services = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

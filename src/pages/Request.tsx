@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail, User, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import SEO from "@/components/SEO";
 
 const requestSchema = z.object({
   name: z.string().trim().min(1, "Имя обязательно").max(100, "Имя не должно превышать 100 символов"),
@@ -80,7 +81,13 @@ const Request = () => {
   };
 
   return (
-    <div className="animate-fade-in">
+    <>
+      <SEO 
+        title="Оставить Заявку на Аренду Автовышки в Тамбове | АвтоВышка68"
+        description="Закажите аренду автовышки в Тамбове онлайн. Быстрая обработка заявок. Бесплатная консультация. Расчет стоимости за 5 минут. ☎ +7 915 674 63 90"
+        keywords="заказать автовышку Тамбов, заявка аренда автовышки, онлайн заказ автовышки, быстрый заказ автогидроподъемника"
+      />
+      <div className="animate-fade-in">
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
@@ -182,6 +189,7 @@ const Request = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

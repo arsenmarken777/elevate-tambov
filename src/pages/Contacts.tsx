@@ -1,10 +1,17 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Clock } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const Contacts = () => {
   return (
-    <div className="animate-fade-in">
+    <>
+      <SEO 
+        title="Контакты - Аренда Автовышек в Тамбове | АвтоВышка68"
+        description="Свяжитесь с нами для аренды автовышки в Тамбове. ☎ +7 915 674 63 90, +7 915 674 02 82. Работаем круглосуточно. Быстрый выезд. Тамбов и область."
+        keywords="контакты аренда автовышки Тамбов, телефон автовышка, заказать автовышку Тамбов, вызвать автовышку, автовышка телефон Тамбов"
+      />
+      <div className="animate-fade-in">
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -120,6 +127,7 @@ const Contacts = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

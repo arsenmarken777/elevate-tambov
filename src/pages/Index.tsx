@@ -9,10 +9,18 @@ import vyshkaImg4 from "@/assets/vyshka-4.jpg";
 import vyshkaImg5 from "@/assets/vyshka-5.jpg";
 import Reviews from "@/components/Reviews";
 import ReviewForm from "@/components/ReviewForm";
+import FAQ from "@/components/FAQ";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   return (
-    <div className="animate-fade-in">
+    <>
+      <SEO 
+        title="Аренда Автовышек в Тамбове - Низкие Цены | АвтоВышка68"
+        description="⭐ Аренда автовышек в Тамбове от 2000₽/час. Высота до 28м. ВС-22, АГП-22, ВС-28. Опытные операторы. Работаем 24/7. Выезд за город. ☎ +7 915 674 63 90"
+        keywords="аренда автовышки Тамбов, автовышка Тамбов цена, аренда автовышки недорого, высотные работы Тамбов, автогидроподъемник Тамбов, автовышка круглосуточно, автовышка 22 метра, автовышка 28 метров, монтажные работы Тамбов, строительные работы высота"
+      />
+      <div className="animate-fade-in">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="container mx-auto px-4">
@@ -198,6 +206,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <FAQ />
+
       {/* Reviews Section */}
       <section className="py-16 bg-card/50">
         <div className="container mx-auto px-4">
@@ -215,6 +226,7 @@ const Index = () => {
         </div>
       </section>
     </div>
+    </>
   );
 };
 

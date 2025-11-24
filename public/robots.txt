@@ -1,14 +1,17 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /setup-admin
+
+Sitemap: https://avtovyshka68.com/sitemap.xml
+
+# Главные поисковые боты
 User-agent: Googlebot
 Allow: /
 
+User-agent: Yandex
+Allow: /
+
 User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: *
 Allow: /
