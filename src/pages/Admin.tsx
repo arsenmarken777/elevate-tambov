@@ -45,6 +45,7 @@ const Admin = () => {
   const [filteredRequests, setFilteredRequests] = useState<Request[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [dateFrom, setDateFrom] = useState("");
@@ -54,6 +55,27 @@ const Admin = () => {
     checkAuth();
     fetchRequests();
     fetchReviews();
+
+    // Real-time подписка на изменения отзывов
+    const reviewsChannel = supabase
+      .channel('reviews-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'reviews'
+        },
+        () => {
+          console.log('Reviews changed, reloading...');
+          fetchReviews();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(reviewsChannel);
+    };
   }, []);
 
   useEffect(() => {
@@ -110,21 +132,28 @@ const Admin = () => {
 
   const fetchReviews = async () => {
     try {
+      setIsLoadingReviews(true);
       const { data, error } = await supabase
         .from("reviews")
         .select("*")
         .order("created_at", { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching reviews:", error);
+        throw error;
+      }
 
+      console.log('Loaded reviews:', data);
       setReviews(data || []);
     } catch (error: any) {
       console.error("Error fetching reviews:", error);
       toast({
-        title: "Ошибка загрузки",
-        description: "Не удалось загрузить отзывы",
+        title: "Ошибка загрузки отзывов",
+        description: error.message || "Не удалось загрузить отзывы",
         variant: "destructive",
       });
+    } finally {
+      setIsLoadingReviews(false);
     }
   };
 
@@ -464,7 +493,7 @@ const Admin = () => {
 
             {/* Reviews List */}
             <div className="space-y-4">
-              {isLoading ? (
+              {isLoadingReviews ? (
                 <Card>
                   <CardContent className="p-6 text-center">
                     Загрузка отзывов...
