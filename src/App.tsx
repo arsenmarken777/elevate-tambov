@@ -9,9 +9,7 @@ import Services from "./pages/Services";
 import Pricing from "./pages/Pricing";
 import Contacts from "./pages/Contacts";
 import Request from "./pages/Request";
-import Login from "./pages/Login";
 import Admin from "./pages/Admin";
-import SetupAdmin from "./pages/SetupAdmin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,11 +23,6 @@ const App = () => (
         <Routes>
           {/* Secret admin route - no auth required */}
           <Route path="/avtovyshka68admin" element={<Admin skipAuth={true} />} />
-          
-          {/* Admin routes without layout */}
-          <Route path="/setup-admin" element={<SetupAdmin />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<Admin />} />
           
           {/* Public routes with layout */}
           <Route path="/" element={<Layout><Index /></Layout>} />
